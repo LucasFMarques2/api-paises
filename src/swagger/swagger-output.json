@@ -1,0 +1,115 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API - Catálogo de Países",
+    "description": "Uma API para listar, buscar e avaliar países, consumindo a API REST Countries.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Países",
+      "description": "Endpoints relacionados a países"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/paises/top10": {
+      "get": {
+        "tags": [
+          "Países"
+        ],
+        "summary": "Lista os 10 países mais populosos.",
+        "description": "Retorna uma lista dos 10 países com a maior população, incluindo dados de avaliação.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/paises/buscar": {
+      "get": {
+        "tags": [
+          "Países"
+        ],
+        "summary": "Busca um país pelo nome.",
+        "description": "Retorna os dados de um país específico. A busca é flexível e encontra nomes parciais.",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do país a ser buscado (ex: Brazil, Germany).",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/paises/avaliar": {
+      "post": {
+        "tags": [
+          "Países"
+        ],
+        "summary": "Registra uma avaliação para um país.",
+        "description": "Permite \"curtir\" ou \"não curtir\" um país. As avaliações são salvas no banco de dados.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados da avaliação.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome_pais": {
+                  "type": "string",
+                  "example": "Brazil"
+                },
+                "avaliacao": {
+                  "type": "string",
+                  "example": "curtir"
+                }
+              },
+              "required": [
+                "nome_pais",
+                "avaliacao"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}
