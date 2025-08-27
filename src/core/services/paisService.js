@@ -41,7 +41,6 @@ class PaisService {
   async getTop10Populosos() {
     const url = `${API_BASE_URL}/all?fields=name,population,continents`
     try {
-      console.log(`Buscando dados da URL: ${url}`)
       const response = await axios.get(url)
       const todosOsPaises = response.data
 
@@ -56,14 +55,13 @@ class PaisService {
       return resultadoFormatado
     } catch (error) {
       logAxiosError(error, 'Erro ao buscar top 10 países')
-      throw error // Lança o erro para o controller tratar a resposta HTTP
+      throw error
     }
   }
 
   async buscarPorNome(nome) {
     const url = `${API_BASE_URL}/name/${nome}?fields=name,population,continents`
     try {
-      console.log(`Buscando dados da URL: ${url}`)
       const response = await axios.get(url)
       const paisEncontrado = response.data[0]
 
@@ -74,11 +72,10 @@ class PaisService {
       return this._formatarPais(paisEncontrado)
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        console.log(`País com nome "${nome}" não encontrado na API externa.`)
         return null
       }
       logAxiosError(error, `Erro ao buscar país por nome: ${nome}`)
-      throw error // Lança o erro para o controller tratar a resposta HTTP
+      throw error 
     }
   }
 
