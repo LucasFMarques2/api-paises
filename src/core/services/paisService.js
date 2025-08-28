@@ -3,27 +3,6 @@ const PaisRepository = require('../repositories/paisRepository')
 
 const API_BASE_URL = process.env.API_BASE_URL
 
-/**
- * Loga um erro detalhado do Axios no console.
- * @param {Error} error - O objeto de erro capturado do Axios.
- * @param {string} context - Uma mensagem de contexto para o log.
- */
-function logAxiosError(error, context) {
-  console.error(`--- ERRO NO SERVICE: ${context} ---`)
-  if (error.response) {
-    // A requisição foi feita e o servidor respondeu com um status de erro
-    console.error('Status:', error.response.status)
-    console.error('Dados:', JSON.stringify(error.response.data, null, 2))
-  } else if (error.request) {
-    // A requisição foi feita, mas nenhuma resposta foi recebida
-    console.error('Nenhuma resposta recebida da API externa.')
-  } else {
-    // Um erro ocorreu ao configurar a requisição
-    console.error('Erro de Configuração:', error.message)
-  }
-  console.error('--- FIM DO ERRO DETALHADO ---')
-}
-
 class PaisService {
   async _formatarPais(paisData) {
     const nomeOficial = paisData.name.common
@@ -54,7 +33,6 @@ class PaisService {
 
       return resultadoFormatado
     } catch (error) {
-      logAxiosError(error, 'Erro ao buscar top 10 países')
       throw error
     }
   }
@@ -75,7 +53,7 @@ class PaisService {
         return null
       }
       logAxiosError(error, `Erro ao buscar país por nome: ${nome}`)
-      throw error 
+      throw error
     }
   }
 
